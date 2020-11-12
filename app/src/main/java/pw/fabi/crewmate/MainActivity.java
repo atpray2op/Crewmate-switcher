@@ -7,18 +7,21 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.text.InputFilter;
-import android.text.Spanned;
-import android.util.Log;
-import android.view.View;
+import android.text.Html;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,16 +32,22 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        final TextView desc = (TextView) findViewById(R.id.textView4);
+        desc.setText(Html.fromHtml("Skeld.net is the world&apos;s first custom Among Us server. It has custom features such as Discord integration, custom gamemodes, a proper anticheat, and more. Come join the <a href=\"https://skeld.net/discord\">Discord</a> server and if you love it, support it on <a href=\"https://www.patreon.com/skeld_net\">Patreon"));
+
+        final TextView mTextView = (TextView) findViewById(R.id.playerCount);
+        mTextView.setText("");
+
         Button btn = (Button)findViewById(R.id.Swbutton);
         hasPermission = requestFilePermission();
 
         btn.setOnClickListener(v -> {
-            String addr = ((EditText) findViewById(R.id.editTextTextAddr)).getText().toString();
+            String addr = "44.238.242.123"; //((EditText) findViewById(R.id.editTextTextAddr)).getText().toString();
             if(!addr.startsWith("http://") & !addr.startsWith("https://")){ // make sure address starts with http://
                 addr = "http://" + addr;
             }
             String ipAddr = new IPHandler().getIp(addr,MainActivity.this);
-            final String port = ((EditText) findViewById(R.id.editTextTextPort)).getText().toString();
+            final String port = "1878"; //((EditText) findViewById(R.id.editTextTextPort)).getText().toString();
             if(port.length() < 2) {
                 Toast.makeText(MainActivity.this,
                         "Please type a Port",
@@ -58,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         short shortPort = Short.parseShort(port);
 
         boolean result = new FileHandler().openFile(Environment.getExternalStorageDirectory().toString() + "/Android/data/com.innersloth.spacemafia/files/regionInfo.dat")
-                .replaceFile("Impostor", addr, shortPort);
+                .replaceFile("skeld.net", addr, shortPort);
 
         if(result){
             Toast.makeText(MainActivity.this,

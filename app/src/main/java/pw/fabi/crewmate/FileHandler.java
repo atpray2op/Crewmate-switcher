@@ -57,8 +57,8 @@ public class FileHandler {
             outd.write(1); // Server count
 
             // Server Info
-            outd.writeInt((name + "-Master-1").getBytes().length); // Server name byte-length
-            outd.writeBytes(name + "-Master-1"); // First Server
+            outd.writeInt(("Impostor-Master-1").getBytes().length); // Server name byte-length
+            outd.writeBytes("Impostor-Master-1"); // First Server
             outd.write(InetAddress.getByName(ip).getAddress()); // Ip address
             outd.writeShort(port); // port
             outd.writeInt(0); // Padding
