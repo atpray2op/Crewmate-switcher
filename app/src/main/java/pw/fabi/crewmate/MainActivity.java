@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
         final TextView desc = (TextView) findViewById(R.id.textView4);
         desc.setText(Html.fromHtml("Skeld.net is the world&apos;s first custom Among Us server. It has custom features such as Discord integration, custom gamemodes, a proper anticheat, and more. Come join the <a href=\"https://skeld.net/discord\">Discord</a> server and if you love it, support it on <a href=\"https://www.patreon.com/skeld_net\">Patreon"));
-
+        desc.setMovementMethod(LinkMovementMethod.getInstance());
         Button btn = (Button)findViewById(R.id.Swbutton);
         hasPermission = requestFilePermission();
 
