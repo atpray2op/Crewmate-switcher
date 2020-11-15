@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
                 addr = "http://" + addr;
             }
             String ipAddr = new IPHandler().getIp(addr,MainActivity.this);
-            final String port = "1878"; //((EditText) findViewById(R.id.editTextTextPort)).getText().toString();
+            final String port = "22023"; //((EditText) findViewById(R.id.editTextTextPort)).getText().toString();
             if(port.length() < 2) {
                 Toast.makeText(MainActivity.this,
                         "Please type a Port",
