@@ -7,7 +7,6 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.Html;
@@ -19,17 +18,8 @@ import android.widget.Toast;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.RequestConfiguration;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
-
-import java.io.IOException;
-import java.net.URL;
-import java.util.Arrays;
-
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -58,45 +48,48 @@ public class MainActivity extends AppCompatActivity {
         hasPermission = requestFilePermission();
 
         btn.setOnClickListener(v -> {
-            String addr = "44.238.242.123"; //((EditText) findViewById(R.id.editTextTextAddr)).getText().toString();
-            if(!addr.startsWith("http://") & !addr.startsWith("https://")){ // make sure address starts with http://
-                addr = "http://" + addr;
+
+            class ReplaceIt implements Runnable {
+                private boolean result;
+                @Override
+                public void run() {
+                    try  {
+                        result =  new FileHandler().openFile(Environment.getExternalStorageDirectory().toString() + "/Android/data/com.innersloth.spacemafia/files/regionInfo.dat")
+                                .replaceFile("https://skeld.net/setup/regionInfo.dat");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                public boolean getResult() {
+                    return result;
+                }
             }
-            String ipAddr = new IPHandler().getIp(addr,MainActivity.this);
-            final String port = "22023"; //((EditText) findViewById(R.id.editTextTextPort)).getText().toString();
-            if(port.length() < 2) {
+
+            ReplaceIt replaceit = new ReplaceIt();
+            Thread thread = new Thread(replaceit);
+            thread.start();
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            boolean result = replaceit.getResult();
+
+
+            if(result){
                 Toast.makeText(MainActivity.this,
-                        "Please type a Port",
+                        "Server changed successfully, (re)start the game",
                         Toast.LENGTH_LONG)
                         .show();
-                return;
             }
-            if(ipAddr != null){
-                switchIpAddr(ipAddr.split("/")[1], port);
+            else{
+                Toast.makeText(MainActivity.this,
+                        "Error, try to grant permissions (this app doesn't work in android 11)",
+                        Toast.LENGTH_LONG)
+                        .show();
             }
         });
-    }
-
-
-    public void switchIpAddr(String addr, String port){
-
-        short shortPort = Short.parseShort(port);
-
-        boolean result = new FileHandler().openFile(Environment.getExternalStorageDirectory().toString() + "/Android/data/com.innersloth.spacemafia/files/regionInfo.dat")
-                .replaceFile("skeld.net", addr, shortPort);
-
-        if(result){
-            Toast.makeText(MainActivity.this,
-                    "Server changed successfully, (re)start the game",
-                    Toast.LENGTH_LONG)
-                    .show();
-        }
-        else{
-            Toast.makeText(MainActivity.this,
-                    "Error, try to grant permissions (this app doesn't work in android 11)",
-                    Toast.LENGTH_LONG)
-                    .show();
-        }
     }
 
     public boolean requestFilePermission(){

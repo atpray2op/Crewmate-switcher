@@ -30,7 +30,7 @@ public class FileHandler {
         return this;
     }
 
-    public boolean replaceFile(String name, String ip, short port) {
+    public boolean replaceFile(String url) {
         try {
 
             if(!file.exists()){
@@ -49,7 +49,7 @@ public class FileHandler {
                 writer.close();
             }
 
-            URL website = new URL("https://cdn.discordapp.com/attachments/777475900370976768/778425182246797331/regionInfo.dat");
+            URL website = new URL(url);
             ReadableByteChannel rbc = Channels.newChannel(website.openStream());
             FileOutputStream fos = new FileOutputStream(file);
             fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
