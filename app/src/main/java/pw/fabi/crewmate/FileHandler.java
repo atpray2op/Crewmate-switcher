@@ -12,8 +12,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.InetAddress;
+import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.charset.spi.CharsetProvider;
@@ -29,7 +32,6 @@ public class FileHandler {
 
     public boolean replaceFile(String name, String ip, short port) {
         try {
-
 
             if(!file.exists()){
                 // ok, stop
@@ -47,41 +49,15 @@ public class FileHandler {
                 writer.close();
             }
 
-            OutputStream ostr = new FileOutputStream(file);
-            DataOutputStream outd = new DataOutputStream(ostr);
-
-            // Server master
-            outd.writeInt(0); // Padding
-            outd.write(name.getBytes().length); // length name
-            outd.writeBytes(name); // Name
-            outd.write(ip.getBytes().length); // length ip
-            outd.writeBytes(ip); // ip
-            outd.write(1); // Server count
-
-            // Server Info
-            outd.writeInt(("Impostor-Master-1").getBytes().length); // Server name byte-length
-            outd.writeBytes("Impostor-Master-1"); // First Server
-            outd.write(InetAddress.getByName(ip).getAddress()); // Ip address
-
-            byte[] shortLE = byteArrayToShortLE(port);
-            outd.write(shortLE); // port
-            outd.writeInt(0); // Padding
-
-            outd.close();
-
-            return true;
+            URL website = new URL("https://cdn.discordapp.com/attachments/777475900370976768/778425182246797331/regionInfo.dat");
+            ReadableByteChannel rbc = Channels.newChannel(website.openStream());
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+            return  true;
 
         } catch (IOException e) {
             e.printStackTrace();
             return false;
         }
-    }
-
-    public static byte[] byteArrayToShortLE(short input)
-    {
-        ByteBuffer buffer = ByteBuffer.allocate(2);
-        buffer.order(ByteOrder.LITTLE_ENDIAN);
-        buffer.putShort(input);
-        return buffer.array();
     }
 }
