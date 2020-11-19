@@ -15,11 +15,11 @@ android {
     buildToolsVersion "29.0.0"
 
     defaultConfig {
-        applicationId 'net.skeld.switcher'
+        applicationId 'net.skeld.switcher.rus'
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 7
-        versionName "Look mom, 10k downloads!"
+        versionName "Russain Version"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.release

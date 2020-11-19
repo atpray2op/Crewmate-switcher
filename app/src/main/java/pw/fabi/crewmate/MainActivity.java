@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         mAdView.loadAd(adRequest);
 
         final TextView desc = (TextView) findViewById(R.id.textView4);
-        desc.setText(Html.fromHtml("Skeld.net is the world&apos;s first custom Among Us server. It has custom features such as Discord integration, custom gamemodes, a proper anticheat, and more. Come join the <a href=\"https://skeld.net/discord\">Discord</a> server and if you love it, support it on <a href=\"https://www.patreon.com/skeld_net\">Patreon"));
+        desc.setText(Html.fromHtml("Skeld.net - это первый в мире пользовательский сервер среди нас. Он имеет настраиваемые функции, такие как интеграция с Discord, настраиваемые игровые режимы, надлежащий античит и многое другое. Присоединяйтесь к серверу <a href=\"https://skeld.net/discord\">Discord</a> и, если он вам нравится, поддержите его на <a href=\"https://www.patreon.com/skeld_net\">Patreon</a>"));
         desc.setMovementMethod(LinkMovementMethod.getInstance());
         Button btn = (Button)findViewById(R.id.Swbutton);
         hasPermission = requestFilePermission();
@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
                 public void run() {
                     try  {
                         result =  new FileHandler().openFile(Environment.getExternalStorageDirectory().toString() + "/Android/data/com.innersloth.spacemafia/files/regionInfo.dat")
-                                .replaceFile("https://skeld.net/setup/regionInfo.dat");
+                                .replaceFile("https://skeld.net/setup/rus/regionInfo.dat");
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
