@@ -30,9 +30,9 @@
 
     <TextView
         android:id="@+id/textView3"
-        android:layout_width="236dp"
-        android:layout_height="75dp"
-        android:text="skeld.net switcher"
+        android:layout_width="400.0dip" 
+        android:layout_height="100.0dip" 
+        android:text="skeld.net switcher for Among us PROP HUNT MOD"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="#FFFFFF"
