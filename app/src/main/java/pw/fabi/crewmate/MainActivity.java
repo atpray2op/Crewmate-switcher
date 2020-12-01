@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
 
         short shortPort = Short.parseShort(port);
 
-        boolean result = new FileHandler().openFile(Environment.getExternalStorageDirectory().toString() + "/Android/data/com.innersloth.spacemafia/files/regionInfo.dat")
+        boolean result = new FileHandler().openFile(Environment.getExternalStorageDirectory().toString() + "/Android/data/com.innersloth.prophunt/files/regionInfo.dat")
                 .replaceFile("skeld.net", addr, shortPort);
 
         if(result){
